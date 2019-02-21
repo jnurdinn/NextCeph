@@ -22,6 +22,7 @@ Expect any update in near future.]]></description>
         <navigation>
             <name>Next Ceph</name>
             <route>nextceph.page.index</route>
+			<icon>ceph-icon.png</icon>
         </navigation>
     </navigations>
 </info>
