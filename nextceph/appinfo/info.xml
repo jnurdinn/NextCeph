@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>nextceph</id>
+    <name>Next Ceph</name>
+    <summary>Powerful Administration Tool for Your Ceph Cluster</summary>
+    <description><![CDATA[Powerful Administration Tool for Your Ceph Cluster
+
+Expect any update in near future.]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="jungman.nurdin@gmail.com" homepage="https://github.com/mamanberliansyah/">Jungman Berliansyah</author>
+    <namespace>NextCeph</namespace>
+    <category>integration</category>
+    <category>monitoring</category>
+    <category>tools</category>
+    <bugs>https://github.com/mamanberliansyah/ceph-nextcloud</bugs>
+    <dependencies>
+        <nextcloud min-version="14" max-version="14"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Next Ceph</name>
+            <route>nextceph.page.index</route>
+        </navigation>
+    </navigations>
+</info>

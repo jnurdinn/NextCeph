@@ -1,0 +1,15 @@
+{
+    "name": "Next Ceph",
+    "description": "Powerful Administration Tool for Your Ceph Cluster",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Jungman Berliansyah"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}
