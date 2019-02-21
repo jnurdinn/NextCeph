@@ -6,5 +6,7 @@
 	</div>
 	<div id="app-settings-content">
 		<!-- Your settings in here -->
+		<li><a href="#">Admin User Config</a></li>
+		<li><a href="#">App Info</a></li>
 	</div>
 </div>
