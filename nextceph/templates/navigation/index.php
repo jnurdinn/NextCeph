@@ -7,13 +7,13 @@
                 </ul>
         </li>
 		<li>
-                <a href="#">Daemons</a>
+                <a href="#">Daemon</a>
                 <ul>
-                        <li><a href="#">Hosts</a></li>
-						<li><a href="#">Pools</a></li>
-						<li><a href="#">MONs</a></li>
-						<li><a href="#">OSDs</a></li>
-						<li><a href="#">iSCIs</a></li>
+			<li><a href="#">Hosts</a></li>
+			<li><a href="#">Pools</a></li>
+			<li><a href="#">MONs</a></li>
+			<li><a href="#">OSDs</a></li>
+			<li><a href="#">iSCIs</a></li>
                 </ul>
         </li>
 		<li>
