@@ -4,6 +4,8 @@ Here's my first attempt in making a NextCloud App, while at the same time using 
 
 It's a simple Ceph Administrator App. Compatible with NextCloud Version 14.
 
+<img src="mockup/dashboard.png"> 
+
 ## Installation
 Place this app in **nextcloud/apps/**
 
