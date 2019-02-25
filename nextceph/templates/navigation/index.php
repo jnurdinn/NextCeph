@@ -1,6 +1,6 @@
 <ul>
         <li>
-                <a href="index">Dashboard</a>
+                <a href=".">Dashboard</a>
                 <ul>
                         <li><a href="#">Performance</a></li>
                         <li><a href="#">Cluster Log</a></li>

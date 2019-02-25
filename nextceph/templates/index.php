@@ -12,9 +12,14 @@ style('nextceph', 'style');
 	<div id="app-content">
 
 		<div id="app-content-wrapper">
-			<?php print_unescaped($this->inc('content/index'));
+			<?php
+				$nowurl = "$_SERVER[REQUEST_URI]";
+				if ($nowurl = "index.php/apps/nextceph/"){
+					print_unescaped($this->inc('content/dashboard'));
+				} else if ($nowurl = "index.php/apps/nextceph/osd") {
+					print_unescaped($this->inc('content/osd'));
+				}
 			?>
 		</div>
 	</div>
 </div>
-
