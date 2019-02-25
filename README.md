@@ -6,3 +6,4 @@ It's a simple Ceph Administrator App. Compatible with NextCloud Version 14.
 
 ## Installation
 Place this app in **nextcloud/apps/**
+

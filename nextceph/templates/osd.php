@@ -10,9 +10,8 @@ style('nextceph', 'style');
 	</div>
 
 	<div id="app-content">
-
 		<div id="app-content-wrapper">
-			<?php print_unescaped($this->inc('content/index'));
+			<?php print_unescaped($this->inc('content/osd'));
 			?>
 		</div>
 	</div>
