@@ -13,9 +13,10 @@ style('nextceph', 'style');
 		<div id="app-content-wrapper">
 			<?php
 			include 'config/config.php';
-			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/osd';
+			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/mon';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];
+
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,$url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -25,7 +26,7 @@ style('nextceph', 'style');
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			$result = curl_exec($ch);
 			curl_close($ch);
-			echo('<pre><H1>OSDs</H1>');
+			echo('<pre><H1>MONs</H1>');
 			echo($result);
 			echo('</pre>');
 			?>

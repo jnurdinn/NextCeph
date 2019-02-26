@@ -2,21 +2,21 @@
         <li>
                 <a href=".">Dashboard</a>
                 <ul>
-                        <li><a href="#">Performance</a></li>
-                        <li><a href="#">Cluster Log</a></li>
+                        <li><a href="perform">Performance</a></li>
+                        <li><a href="log">Cluster Log</a></li>
                 </ul>
         </li>
                 <li>
                 <a href="#">Cluster</a>
                 <ul>
-                        <li><a href="#">Hosts</a></li>
-                        <li><a href="#">Pools</a></li>
+                        <li><a href="host">Hosts</a></li>
+                        <li><a href="pool">Pools</a></li>
                         <li><a href="osd">OSDs</a></li>
-                        <li><a href="#">MONs</a></li>
-                        <li><a href="#">Config</a></li>
+                        <li><a href="mon">MONs</a></li>
+                        <li><a href="config">Config</a></li>
                 </ul>
         </li>
-        <li><a href="#">CephFS</a></li>
-        <li><a href="#">RBD</a></li>
-        <li><a href="#">RGW</a></li>
+        <li><a href="fs">CephFS</a></li>
+        <li><a href="rbd">RBD</a></li>
+        <li><a href="rgw">RGW</a></li>
 </ul>

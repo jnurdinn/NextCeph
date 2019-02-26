@@ -18,15 +18,54 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index() {
-		return new TemplateResponse('nextceph', 'index');  // templates/index.php
+	public function index($template = 'dashboard') {
+		return new TemplateResponse('nextceph', $template);  // templates/index.php
 	}
 
 	/**
-         * @NoAdminRequired
-         * @NoCSRFRequired
-         */
-        public function osd() {
-                return new TemplateResponse('nextceph', 'osd');  // templates/index.php
-        }
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function dashboard() {
+		return new TemplateResponse('nextceph', 'dashboard');
+	}
+	/**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+  public function osd() {
+  	return new TemplateResponse('nextceph', 'osd');
+  }
+
+	/**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+	public function mon() {
+  	return new TemplateResponse('nextceph', 'mon');
+  }
+
+	/**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+	public function pool() {
+  	return new TemplateResponse('nextceph', 'pool');
+  }
+
+	/**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+	public function host() {
+  	return new TemplateResponse('nextceph', 'host');
+  }
+
+	/**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+	public function config() {
+  	return new TemplateResponse('nextceph', 'config');
+  }
 }
