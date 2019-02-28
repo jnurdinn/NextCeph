@@ -38,7 +38,7 @@ style('nextceph', 'style');
 			curl_close($ch);
 
 			echo('<pre><H1>Dashboard</H1>');
-			echo($obj->finished[0]->outb);
+			echo("Health Report\n".$obj->finished[0]->outb);
 			echo('</pre>');
 			?>
 		</div>
