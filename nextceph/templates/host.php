@@ -13,7 +13,7 @@ style('nextceph', 'style');
 		<div id="app-content-wrapper">
 			<?php
 			include 'config/config.php';
-			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/host';
+			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/server';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];
 			$ch = curl_init();

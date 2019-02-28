@@ -25,6 +25,8 @@ style('nextceph', 'style');
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			$result = curl_exec($ch);
 			curl_close($ch);
+
+			//echo($result);
 			echo('<pre><H1>Cluster Configuration</H1>');
 			echo($result);
 			echo('</pre>');
