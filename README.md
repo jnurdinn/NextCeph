@@ -8,9 +8,3 @@ It's a simple Ceph Administrator App. Compatible with NextCloud Version 14.
 
 ## Installation
 Place this app in **nextcloud/apps/**
-
-| URL | Method |                                                Info                                               |   |   |
-|:---:|:------:|:-------------------------------------------------------------------------------------------------:|:-:|:-:|
-|  /  |   GET  |  Show the basic information for the REST API This includes values like api version or auth method |   |   |
-|     |        |                                                                                                   |   |   |
-|     |        |                                                                                                   |   |   |
