@@ -3,17 +3,17 @@ script('nextceph', 'script');
 style('nextceph', 'style');
 ?>
 
-<div id='app'>
-	<div id='app-navigation'>
+<div id="app">
+	<div id="app-navigation">
 		<?php print_unescaped($this->inc('navigation/index')); ?>
 		<?php print_unescaped($this->inc('settings/index')); ?>
 	</div>
 
-	<div id='app-content'>
-		<div id='app-content-wrapper'>
+	<div id="app-content">
+		<div id="app-content-wrapper">
 			<?php
 			include 'config/config.php';
-			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/osd';
+			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/mon';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];
 			$ch = curl_init();
@@ -26,27 +26,30 @@ style('nextceph', 'style');
 			$result = curl_exec($ch);
 			curl_close($ch);
 			$data = json_decode($result);
-			echo "<pre><H1>Object Storage Daemons</H1>\n";
-			echo "<table>";
+
+			echo "<pre><H1>Monitor Daemons</H1>\n";
+	    echo "<table>";
 			echo "<tr>";
-			echo "<td>OSD ID</td>";
 			echo "<td>Hostname</td>";
-			echo "<td>Cluster Address</td>";
-			echo "<td>Public Address</td>";
+			echo "<td>Rank</td>";
+			echo "<td>Quorum</td>";
+			echo "<td>Leader</td>";
+			echo "<td>Host Address</td>";
 			echo "</tr>";
       // Cycle through the array
       foreach ($data as $idx => $stand) {
 	      // Output a row
 	      echo "<tr>";
-	      echo "<td>$stand->osd</td>";
-				echo "<td>$stand->server</td>";
-				echo "<td>$stand->cluster_addr</td>";
+	      echo "<td>$stand->server</td>";
+				echo "<td>$stand->rank</td>";
+				echo "<td>$stand->in_quorum</td>";
+				echo "<td>$stand->leader</td>";
 				echo "<td>$stand->public_addr</td>";
 	      echo "</tr>";
 
-			// Close the table
-			}
-			echo '</table>';
+      // Close the table
+	    }
+			echo "</table>";
 			echo('</pre>');
 			?>
 		</div>

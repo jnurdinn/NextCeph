@@ -5,7 +5,7 @@
 
 # Generic Makefile for building and packaging a Nextcloud app which uses npm and
 # Composer.
-#
+# 
 # Dependencies:
 # * make
 # * which
