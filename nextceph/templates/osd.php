@@ -26,6 +26,7 @@ style('nextceph', 'style');
 			$result = curl_exec($ch);
 			curl_close($ch);
 			$data = json_decode($result);
+			echo('<div id="container"><main>');
 			echo "<pre><H1>Object Storage Daemons</H1>\n";
 			echo "<table>";
 			echo "<tr>";
@@ -47,7 +48,7 @@ style('nextceph', 'style');
 			// Close the table
 			}
 			echo '</table>';
-			echo('</pre>');
+			echo('</pre></main></div>');
 			?>
 		</div>
 	</div>

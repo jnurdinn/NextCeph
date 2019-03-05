@@ -1,4 +1,13 @@
-body {
+#container main {
+  margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 16px;
+}
+
+#container {
+	margin-bottom: 20px;
+	clear: both;
+	border-radius: 5px;
 }
 
 h1 {

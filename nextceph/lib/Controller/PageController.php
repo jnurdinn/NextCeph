@@ -1,6 +1,7 @@
 <?php
 namespace OCA\NextCeph\Controller;
 
+use OCA\NextCeph\Request;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;

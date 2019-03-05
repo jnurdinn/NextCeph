@@ -24,12 +24,25 @@ style('nextceph', 'style');
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			$result = curl_exec($ch);
+			$data = json_decode($result);
 			curl_close($ch);
 
-			//echo($result);
-			echo('<pre><H1>Cluster Configuration</H1>');
-			echo($result);
-			echo('</pre>');
+			echo('<div id="container"><main>');
+			echo("<pre><H1>Cluster Configuration</H1>\n");
+			echo "<table>";
+			echo "<tr>";
+			echo "<th><b>Config Key</b></th>";
+			echo "<th><b>Value</b></th>";
+			echo "</tr>";
+      // Cycle through the array
+      foreach ($data as $key=>$value){
+	      // Output a row
+	      echo "<tr>";
+	      echo "<td>$key</td>";
+				echo "<td>$value</td>";
+	      echo "</tr>";
+	    }
+			echo('</table></pre></main></div>');
 			?>
 		</div>
 	</div>

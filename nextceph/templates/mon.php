@@ -26,31 +26,33 @@ style('nextceph', 'style');
 			$result = curl_exec($ch);
 			curl_close($ch);
 			$data = json_decode($result);
-
+			echo('<div id="container"><main>');
 			echo "<pre><H1>Monitor Daemons</H1>\n";
 	    echo "<table>";
 			echo "<tr>";
-			echo "<td>Hostname</td>";
-			echo "<td>Rank</td>";
-			echo "<td>Quorum</td>";
-			echo "<td>Leader</td>";
-			echo "<td>Host Address</td>";
+			echo "<th><b>Hostname</b></th>";
+			echo "<th><b>Rank</b></th>";
+			echo "<th><b>Quorum</b></th>";
+			echo "<th><b>Leader</b></th>";
+			echo "<th><b>Host Address</b></th>";
 			echo "</tr>";
       // Cycle through the array
       foreach ($data as $idx => $stand) {
 	      // Output a row
 	      echo "<tr>";
 	      echo "<td>$stand->server</td>";
-				echo "<td>$stand->rank</td>";
-				echo "<td>$stand->in_quorum</td>";
-				echo "<td>$stand->leader</td>";
-				echo "<td>$stand->public_addr</td>";
+				echo "<td>$stand->rank</td><td>";
+				echo (boolval($stand->in_quorum) ? 'true' : 'false');
+				echo "</td><td>";
+				echo (boolval($stand->leader) ? 'true' : 'false');
+				echo "</td><td>$stand->public_addr</td>";
 	      echo "</tr>";
 
       // Close the table
 	    }
 			echo "</table>";
 			echo('</pre>');
+			echo('</main></div>');
 			?>
 		</div>
 	</div>
