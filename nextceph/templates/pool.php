@@ -25,9 +25,11 @@ style('nextceph', 'style');
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			$result = curl_exec($ch);
 			curl_close($ch);
+			echo('<div id="container"><main>');
 			echo('<pre><H1>Pools</H1>');
 			echo($result);
 			echo('</pre>');
+			echo('</main></div>');
 			?>
 		</div>
 	</div>
