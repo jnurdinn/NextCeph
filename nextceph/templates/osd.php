@@ -28,27 +28,27 @@ style('nextceph', 'style');
 			$data = json_decode($result);
 			echo('<div id="container"><main>');
 			echo "<pre><H1>Object Storage Daemons</H1>\n";
-			echo "<table>";
-			echo "<tr>";
-			echo "<td>OSD ID</td>";
-			echo "<td>Hostname</td>";
-			echo "<td>Cluster Address</td>";
-			echo "<td>Public Address</td>";
-			echo "</tr>";
-      // Cycle through the array
-      foreach ($data as $idx => $stand) {
-	      // Output a row
+			echo "<table><tr>";
+			echo "<td><b>OSD ID</b></td>";
+			echo "<td><b>Hostname</b></td>";
+			echo "<td><b>Cluster Address</b></td>";
+			echo "<td><b>Public Address</b></td>";
+			echo "<td><b>State</b></td>";
+			echo "<td><b>UUID</b></td>";
+			echo "<td><b>Weight</b></td></tr>";
+      foreach ($data as $data) {
 	      echo "<tr>";
-	      echo "<td>$stand->osd</td>";
-				echo "<td>$stand->server</td>";
-				echo "<td>$stand->cluster_addr</td>";
-				echo "<td>$stand->public_addr</td>";
-	      echo "</tr>";
-
-			// Close the table
+	      echo "<td>$data->osd</td>";
+				echo "<td>$data->server</td>";
+				echo "<td>$data->cluster_addr</td>";
+				echo "<td>$data->public_addr</td><td>";
+				foreach ($data->state as $state){
+					echo $state."<br>";
+				}
+				echo "<td>$data->uuid</td>";
+				echo "<td>$data->weight</td></tr>";
 			}
-			echo '</table>';
-			echo('</pre></main></div>');
+			echo '</table></pre></main></div>';
 			?>
 		</div>
 	</div>

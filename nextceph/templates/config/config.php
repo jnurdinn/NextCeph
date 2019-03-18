@@ -1,7 +1,7 @@
 <?php
   $nc_config = array(
-    'user' => 'admin01',
-    'psswd' => '79b51cd9-348e-4822-92e0-25dfec5221b4',
+    'user' => 'admin',
+    'psswd' => 'fd376672-e167-4afb-b9ef-8f73aa96b7bb',
     'mgr_host' => '10.10.2.100',
-    'mgr_port' => '9005',
+    'mgr_port' => '9000',
   );

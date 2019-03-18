@@ -24,12 +24,33 @@ style('nextceph', 'style');
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			$result = curl_exec($ch);
-			curl_close($ch);
+			$data = json_decode($result);
 			echo('<div id="container"><main>');
-			echo('<pre><H1>Pools</H1>');
-			echo($result);
-			echo('</pre>');
-			echo('</main></div>');
+			echo "<pre><H1>Pools</H1>\n";
+			echo '<button type="button">Add New Pool</button>';
+			echo "<table><tr>";
+			echo "<td><b>Name</b></td>";
+			echo "<td><b>Type</b></td>";
+			echo "<td><b>Application</b></td>";
+			echo "<td><b>Placement Group</b></td>";
+			echo "<td><b>Replica Size</b></td>";
+			echo "<td><b>Last Change</b></td>";
+			echo "<td><b>Erasure Code Profile</b></td>";
+			echo "<td><b>Edit Pool</b></td></tr>";
+      foreach ($data as $data) {
+	      echo "<tr>";
+	      echo "<td>$data->pool_name</td>";
+				echo "<td>$data->type</td>";
+				foreach ($data->application_metadata as $key=>$val){
+					echo "<td>$key</td>";
+				}
+				echo "<td>$data->pg_num</td>";
+				echo "<td>$data->size</td>";
+				echo "<td>$data->last_change</td>";
+				echo "<td>$data->erasure_code_profile</td>";
+				echo '<td><button class="icon-edit"></button><button class="icon-delete"></button></td></td></tr>';
+			}
+			echo '</table></pre></main></div>';
 			?>
 		</div>
 	</div>
