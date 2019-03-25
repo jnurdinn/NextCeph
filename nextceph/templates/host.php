@@ -13,7 +13,7 @@ style('nextceph', 'style');
 		<div id="app-content-wrapper">
 			<div id="container">
 				<?php
-				include 'config/config.php';
+				include 'settings/settings.php';
 
 				function append($service, $input){
 					if ($service['total'] == 0) {

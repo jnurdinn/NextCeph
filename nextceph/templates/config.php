@@ -12,7 +12,7 @@ style('nextceph', 'style');
 	<div id="app-content">
 		<div id="app-content-wrapper">
 			<?php
-			include 'config/config.php';
+			include 'settings/settings.php';
 			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/config/cluster';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];
@@ -29,9 +29,7 @@ style('nextceph', 'style');
 
 			echo('<div id="container"><main>');
 			echo("<pre><H1>Cluster Configuration</H1>\n");
-			echo "<table>";
-			echo "<tr>";
-			echo "<th><b>Config Key</b></th>";
+			echo "<table><tr><th><b>Config Key</b></th>";
 			echo "<th><b>Value</b></th>";
 			echo "</tr>";
       // Cycle through the array

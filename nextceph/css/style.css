@@ -10,8 +10,72 @@
 	border-radius: 5px;
 }
 
+#padding {
+  background-color: #dddddd;
+  width: 750px;
+  padding: 25px;
+}
+
+#pad1 {
+  position: absolute;
+  top: 60px;
+  left: 790px;
+  background-color: #dddddd;
+  width: 350px;
+  padding: 25px;
+}
+
+#pad2 {
+  position: absolute;
+  top: 60px;
+  left: 1160px;
+  background-color: #dddddd;
+  width: 350px;
+  padding: 25px;
+}
+
+#pad3 {
+  position: absolute;
+  top: 170px;
+  left: 790px;
+  background-color: #dddddd;
+  width: 350px;
+  padding: 25px;
+}
+
+#pad4 {
+  position: absolute;
+  top: 170px;
+  left: 1160px;
+  background-color: #dddddd;
+  width: 350px;
+  padding: 25px;
+}
+
+#pad5 {
+  position: absolute;
+  top: 170px;
+  left: 1160px;
+  background-color: #dddddd;
+  width: 720px;
+  padding: 25px;
+}
+
+mons {
+  font-size: 25px;
+  color: #1370db;
+}
+
 h1 {
   font-size: 30px;
+}
+
+a:link {
+  color: #1370db;
+}
+
+a:visited {
+  color: #1370db;
 }
 
 table {
@@ -22,52 +86,10 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
-}
-
-bar {
-  width: 99%;
-  border: 1px
-  solid #000;
-}
-percentage {
-  background: #000;
-}
-
-.per {
-    position: absolute;
-    top: 130px;
-    left: 50%;
-    margin: 1px 0px 0px -340px;
-    background-color: #FFFFFF;
-}
-
-#barbox_a {
-  position: absolute;
-  top: 0px;
-  left: 50%;
-  margin: 240px 0px 0px -690px;
-  width: 304px;
-  height: 24px;
-  background-color: black;
-}
-
-.bar {
-  position: absolute;
-  top: 2px;
-  left: 50%;
-  margin: 240px 0px 0px -688px;
-  width: 0px;
-  height: 20px;
-  background-color: #2BE237;
-}
-
-.blank {
-  background-color: white;
-  width: 300px;
 }

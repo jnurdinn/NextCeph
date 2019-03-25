@@ -7,7 +7,7 @@
     <description><![CDATA[Powerful Administration Tool for Your Ceph Cluster
 
 Expect any update in near future.]]></description>
-    <version>0.0.3</version>
+    <version>0.1.8</version>
     <licence>agpl</licence>
     <author mail="jungman.nurdin@gmail.com" homepage="https://github.com/mamanberliansyah/">Jungman Berliansyah</author>
     <namespace>NextCeph</namespace>

@@ -12,7 +12,7 @@ style('nextceph', 'style');
 	<div id='app-content'>
 		<div id='app-content-wrapper'>
 			<?php
-			include 'config/config.php';
+			include 'settings/settings.php';
 			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/osd';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];

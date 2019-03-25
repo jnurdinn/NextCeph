@@ -1,7 +1,5 @@
 <?php
 script('nextceph', 'script');
-script('nextceph', 'chart');
-script('nextceph', 'chart.min');
 style('nextceph', 'style');
 ?>
 
@@ -15,7 +13,7 @@ style('nextceph', 'style');
 
 		<div id="app-content-wrapper">
 			<?php
-			include 'config/config.php';
+			include 'settings/settings.php';
 
 			function post($url,$login,$pass,$jsondata){
 				$jsondata = json_encode($jsondata);
@@ -37,47 +35,6 @@ style('nextceph', 'style');
 				return $obj;
 			}
 
-			function create_progress($percent) {
-			  echo "
-					<style>
-					.per {
-						  position: absolute;
-						  top: 0px;
-						  left: 50%;
-						  margin: 260px 0px 0px -632px;
-					}
-
-					#barbox_a {
-					  position: absolute;
-					  top: 0px;
-					  left: 50%;
-					  margin: 258px 0px 0px -690px;
-					  width: 152px;
-					  height: 24px;
-					  background-color: black;
-					}
-
-					.bar {
-					  position: absolute;
-					  top: 0px;
-					  left: 50%;
-					  margin: 260px 0px 0px -689px;
-					  width: 0px;
-					  height: 20px;
-					  background-color: #2BE237;
-					}
-
-					.blank {
-					  background-color: white;
-					  width: 150px;
-					}
-					</style>";
-
-					echo "<div id='barbox_a'></div><div class='bar blank'></div>";
-					echo "<div class='bar' style='width: ", $percent * 1.5, "px'></div>";
-					echo "<div class='per'>".$percent." %</div>";
-			}
-
 			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/request?wait=1';
 			$login = $nc_config['user'];
 			$pass = $nc_config['psswd'];
@@ -86,25 +43,23 @@ style('nextceph', 'style');
 			echo("<pre><H1>Dashboard</H1>\n");
 			//health report
 			$obj = post($url,$login,$pass,array('prefix'=>'health'));
-			echo("<h2>Health Report :</h2>".$obj->finished[0]->outb."\n");
+			echo('<div id="padding"><h2>Health Report :</h2>'.$obj->finished[0]->outb."</div>\n");
 
 			//usage
 			$obj = post($url,$login,$pass,array('prefix'=>'df','detail'=>'detail'));
 			$obj = str_replace('\n', ' ', $obj->finished[0]->outb);
 			$obj = preg_replace('!\s+!', ' ', $obj);
 			$obj = explode(" ",$obj);
-			echo ('<h2>Usage :</h2>');
+			echo ('<div id="padding"><h2>Usage :</h2>');
 			echo ('Size : '.$obj[8].' '.$obj[9]);
 			echo ('<br>Avail: '.$obj[10].' '.$obj[11]);
 			echo ('<br>Raw  : '.$obj[12].' '.$obj[13]);
 			echo ('<br>Obj  : '.$obj[15]);
-			echo ('<br>Usage: <progress value='.$obj[14].' max="100"></progress>'.$obj[14].'%	');
-			//create_progress($obj[14]);
+			echo ('<br><br>Usage in Percentage: <progress value='.$obj[14].' max="100"></progress>'.$obj[14]."%	</div>\n");
 
 			//Daemons
 			$obj = post($url,$login,$pass,array('prefix'=>'node ls'));
 			$json = json_decode($obj->finished[0]->outb, true);
-			echo ('<h2>Daemons :</h2>');
 			//mon
 			$mon = array('data'=>$json['mon'],'total'=>0);
 			foreach ($mon['data'] as $key=>$value){
@@ -113,18 +68,16 @@ style('nextceph', 'style');
 			if($mon['total'] == 0){
 				$mon['total'] = 'No monitor server found';
 			}
-			echo("MON : ".$mon['total']."<br>");
 
 			//mgr
 			$mgr = array('data'=>$json['mgr'],'total'=>0);
 			foreach ($mgr['data'] as $key=>$value){
 				$mgr['total']++;
-				//echo($key."->".$value[0]."<br>");
 			}
 			if($mgr['total'] == 0){
 				$mgr['total'] = 'No manager server found';
 			}
-			echo("MGR : ".$mgr['total']."<br>");
+
 
 			//mds
 			$mds = array('data'=>$json['mds'],'total'=>0);
@@ -135,7 +88,7 @@ style('nextceph', 'style');
 			if($mds['total'] == 0){
 			$mds['total'] = 'No metadata server found';
 			}
-			echo("MDS : ".$mds['total']."<br>");
+
 
 			//osd
 			$osd = array('data'=>$json['osd'],'total'=>0);
@@ -148,7 +101,12 @@ style('nextceph', 'style');
 			if($osd['total'] == 0){
 			$osd['total'] = 'No OSD server found';
 			}
-			echo("OSD : ".$osd['total']."<br><br>");
+
+			//print daemons
+			echo('<div id="pad1"><mons><a href="mon">MON</a><br></mons>'.$mon['total'].'</div>');
+			echo('<div id="pad2"><mons>MGR</mons><br>'.$mgr['total'].'</div>');
+			echo('<div id="pad3"><mons>MDS<br></mons>'.$mds['total'].'</div>');
+			echo('<div id="pad4"><mons><a href="osd">OSD</a><br></mons>'.$osd['total']."</div><br>");
 
 			//log
 			$obj = post($url,$login,$pass,array('prefix'=>'log last','num'=>100));
