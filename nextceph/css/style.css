@@ -10,10 +10,18 @@
 	border-radius: 5px;
 }
 
-#padding {
+#healthpad {
+  background-color: #dddddd;
+  height: 200px;
+  width: 750px;
+  padding: 25px;
+}
+
+#usagepad {
   background-color: #dddddd;
   width: 750px;
   padding: 25px;
+  height: 235px;
 }
 
 #pad1 {
@@ -22,7 +30,7 @@
   left: 790px;
   background-color: #dddddd;
   width: 350px;
-  padding: 25px;
+  padding: 15px;
 }
 
 #pad2 {
@@ -31,7 +39,7 @@
   left: 1160px;
   background-color: #dddddd;
   width: 350px;
-  padding: 25px;
+  padding: 15px;
 }
 
 #pad3 {
@@ -40,7 +48,7 @@
   left: 790px;
   background-color: #dddddd;
   width: 350px;
-  padding: 25px;
+  padding: 15px;
 }
 
 #pad4 {
@@ -49,15 +57,26 @@
   left: 1160px;
   background-color: #dddddd;
   width: 350px;
-  padding: 25px;
+  padding: 15px;
 }
 
 #pad5 {
   position: absolute;
-  top: 170px;
-  left: 1160px;
+  top: 280px;
+  left: 790px;
   background-color: #dddddd;
   width: 720px;
+  height: 235px;
+  padding: 25px;
+}
+
+#logpad {
+  position: absolute;
+  top: 280px;
+  left: 790px;
+  background-color: #dddddd;
+  width: 720px;
+  height: 235px;
   padding: 25px;
 }
 
@@ -79,17 +98,20 @@ a:visited {
 }
 
 table {
-  font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: center;
+  text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+input {
+  width: 100%;
 }

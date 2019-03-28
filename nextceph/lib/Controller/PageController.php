@@ -27,9 +27,7 @@ class PageController extends Controller {
 	 */
 	 public function returnJSON() {
 		if ($this->userId == 'admin') {
-			$key = 'mgrip';
-	  	//$value = '10.10.2.100:9000';
-	  	//$params = array($key => $this->sysVal->setAppValue($key, $value));
+			$key = 'passwd';
 			$params = array($key => $this->sysVal->getAppValue($key));
 		} else {
 			$params = array($this->userId => 'youre not the admin');
@@ -42,7 +40,8 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		return new TemplateResponse('nextceph', 'dashboard');  // templates/index.php
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'dashboard', $params);
 	}
 
 	/**
@@ -113,10 +112,11 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	private function apply($mgrip, $mgrport, $user, $passwd) {
-		$set = $this->sysVal->setAppValue('mgrip', $mgrip);
-		$set = $this->sysVal->setAppValue('mgrport', $mgrport);
-		$set = $this->sysVal->setAppValue('user', $user);
-		$set = $this->sysVal->setAppValue('passwd', $passwd);
+	public function apply() {
+		$set = $this->sysVal->setAppValue('mgrip', $_POST["mgrip"]);
+		$set = $this->sysVal->setAppValue('mgrport', $_POST["mgrport"]);
+		$set = $this->sysVal->setAppValue('username', $_POST["username"]);
+		$set = $this->sysVal->setAppValue('password', $_POST["password"]);
+		return new RedirectResponse('/index.php/apps/nextceph/');
 	}
 }
