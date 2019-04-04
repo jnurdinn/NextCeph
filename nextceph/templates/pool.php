@@ -44,16 +44,16 @@ style('nextceph', 'style');
 				return $data;
 			}
 
-			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/pool';
-			$login = $nc_config['user'];
-			$pass = $nc_config['psswd'];
+			$url = 'https://'.$_[0].':'.$_[1].'/pool';
+			$login = $_[2];
+			$pass = $_[3];
 
 			$data = get($url,$login,$pass);
 
 			echo('<div id="container"><main>');
 			echo "<pre><H1>Pools</H1>\n";
-			echo '<button type="button">Add New Pool</button>';
 			echo "<table><tr>";
+			echo "<td><b>Pool ID</b></td>";
 			echo "<td><b>Name</b></td>";
 			echo "<td><b>Type</b></td>";
 			echo "<td><b>Application</b></td>";
@@ -61,22 +61,70 @@ style('nextceph', 'style');
 			echo "<td><b>Replica Size</b></td>";
 			echo "<td><b>Last Change</b></td>";
 			echo "<td><b>Erasure Code Profile</b></td>";
-			echo "<td><b>Edit Pool</b></td></tr>";
+			echo "<td><b>Edit</b></td>";
+			echo "<td><b>Del</b></td></tr>";
       foreach ($data as $data) {
 	      echo "<tr>";
+				echo "<td>$data->pool</td>";
 	      echo "<td>$data->pool_name</td>";
-				echo "<td>$data->type</td>";
+				echo "<td>$data->type</td><td>";
 				foreach ($data->application_metadata as $key=>$val){
-					echo "<td>$key</td>";
+					echo "$key";
 				}
-				echo "<td>$data->pg_num</td>";
+				echo "</td><td>$data->pg_num</td>";
 				echo "<td>$data->size</td>";
 				echo "<td>$data->last_change</td>";
 				echo "<td>$data->erasure_code_profile</td>";
-				echo '<td><button class="icon-edit"></button><button class="icon-delete"></button></td></td></tr>';
+				echo '<td><input type="submit" name="edit" class="icon-edit" value=""></td>';
+				echo '<td><form action="#delPool" method="get"><input name="name" type="hidden" value="'.$data->pool_name.'"><input name="id" type="hidden" value="'.$data->pool.'"></input><input type="submit" class="icon-delete" value=""></input></form></td></tr>';
 			}
-			echo '</table></pre></main></div>';
+			echo '</table>';
+			echo '<br><a class="button" href="#addPool">Add New Pool</a><br>';
+			echo('</pre></main></div>');
 			?>
+
+			<div id="addPool" class="overlay">
+				<div class="popup">
+					<h2>Generate New Pool</h2>
+					<a class="close" href="#">&times;</a>
+					<div class="content">
+			      <form action="apply" method="POST">
+							<input name="type" type="hidden" value="genPool">
+			        Pool Name <input type="text" name="poolName" <br>
+			        PG Value <input type="number" name="poolPG" value=0 <br>
+			        <input type="submit" value="Submit">
+			      </form>
+					</div>
+				</div>
+			</div>
+			<div id="delPool" class="overlay">
+				<div class="popup">
+					<h2>Delete Pool</h2>
+					<a class="close" href="#">&times;</a>
+					<div class="content">
+			      <form action="apply" method="POST">
+							<input name="type" type="hidden" value="delPool">
+							<input name="id" type="hidden" value="<?php echo($_GET["id"]) ?>">
+			        Are you sure to delete pool <b><?php echo($_GET["name"])?></b>?<br>
+			        <c><input type="submit" value="OK"></input><a class="button" href="#">Cancel</a></c>
+			      </form>
+					</div>
+				</div>
+			</div>
+			<div id="editPool" class="overlay">
+				<div class="popup">
+					<h2>Generate New Pool</h2>
+					<a class="close" href="#">&times;</a>
+					<div class="content">
+			      <form action="apply" method="POST">
+							<input name="type" type="hidden" value="genPool">
+			        Pool Name <input type="text" name="poolName" <br>
+			        PG Value <input type="number" name="poolPG" value=0 <br>
+			        <input type="submit" value="Submit">
+			      </form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

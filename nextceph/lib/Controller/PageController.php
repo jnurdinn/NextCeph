@@ -49,7 +49,8 @@ class PageController extends Controller {
    * @NoCSRFRequired
    */
   public function osd() {
-  	return new TemplateResponse('nextceph', 'osd');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'osd', $params);
   }
 
 	/**
@@ -57,7 +58,8 @@ class PageController extends Controller {
    * @NoCSRFRequired
    */
 	public function mon() {
-  	return new TemplateResponse('nextceph', 'mon');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'mon', $params);
   }
 
 	/**
@@ -65,7 +67,8 @@ class PageController extends Controller {
    * @NoCSRFRequired
    */
 	public function pool() {
-  	return new TemplateResponse('nextceph', 'pool');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'pool', $params);
   }
 
 	/**
@@ -73,7 +76,8 @@ class PageController extends Controller {
    * @NoCSRFRequired
    */
 	public function host() {
-  	return new TemplateResponse('nextceph', 'host');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'host', $params);
   }
 
 	/**
@@ -81,7 +85,8 @@ class PageController extends Controller {
    * @NoCSRFRequired
    */
 	public function config() {
-  	return new TemplateResponse('nextceph', 'config');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'config', $params);
   }
 
 	/**
@@ -89,7 +94,8 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function crush() {
-		return new TemplateResponse('nextceph', 'crush');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'crush', $params);
 	}
 
 	/**
@@ -97,7 +103,8 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function perform() {
-		return new TemplateResponse('nextceph', 'perform');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'perform', $params);
 	}
 
 	/**
@@ -105,7 +112,8 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function log() {
-		return new TemplateResponse('nextceph', 'log');
+		$params = array($this->sysVal->getAppValue('mgrip'),$this->sysVal->getAppValue('mgrport'), $this->sysVal->getAppValue('username'), $this->sysVal->getAppValue('password'));
+		return new TemplateResponse('nextceph', 'log', $params);
 	}
 
 	/**
@@ -113,10 +121,63 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function apply() {
-		$set = $this->sysVal->setAppValue('mgrip', $_POST["mgrip"]);
-		$set = $this->sysVal->setAppValue('mgrport', $_POST["mgrport"]);
-		$set = $this->sysVal->setAppValue('username', $_POST["username"]);
-		$set = $this->sysVal->setAppValue('password', $_POST["password"]);
-		return new RedirectResponse('/index.php/apps/nextceph/');
+		if ($_POST["type"] == "applySetting"){
+			$set = $this->sysVal->setAppValue('mgrip', $_POST["mgrip"]);
+			$set = $this->sysVal->setAppValue('mgrport', $_POST["mgrport"]);
+			$set = $this->sysVal->setAppValue('username', $_POST["username"]);
+			$set = $this->sysVal->setAppValue('password', $_POST["password"]);
+			return new RedirectResponse('/index.php/apps/nextceph/');
+		} else if ($_POST["type"] == "genPool"){
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/pool';
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$jsondata = array('name'=>$_POST["poolName"], 'pg_num'=>$_POST["poolPG"]);
+			$jsondata = json_encode($jsondata);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			$obj = json_decode($result);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/pool');
+		} else if ($_POST["type"] == "delPool"){
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/pool/'.$_POST["id"];
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$jsondata = json_encode($jsondata);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+			$result = curl_exec($ch);
+			$obj = json_decode($result);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/pool');
+		}
+	}
+
+	private function post($url,$login,$pass,$jsondata){
+		$jsondata = json_encode($jsondata);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+		$result = curl_exec($ch);
+		$obj = json_decode($result);
+		curl_close($ch);
+		return $obj;
 	}
 }

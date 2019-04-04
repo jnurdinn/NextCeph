@@ -12,17 +12,14 @@ style('nextceph', 'style');
 	<div id='app-content'>
 		<div id='app-content-wrapper'>
 			<?php
-			include 'settings/settings.php';
-			$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/osd';
-			$login = $nc_config['user'];
-			$pass = $nc_config['psswd'];
+			$url = 'https://'.$_[0].':'.$_[1].'/osd';
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,$url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_USERPWD, "$_[2]:$_[3]");
 			$result = curl_exec($ch);
 			curl_close($ch);
 			$data = json_decode($result);

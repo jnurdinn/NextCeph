@@ -8,6 +8,7 @@
 		<!-- Your settings in here -->
 		<li> Ceph MGR API Settings :
 			<form action="apply" method="post">
+				<input name="type" type="hidden" value="applySetting">
 				<?php
 				echo ('IP Address 	: <input type="text" name="mgrip" value='.$_[0].'><br>');
 				echo ('Port 				: <input type="text" name="mgrport" value='.$_[1].'><br>');

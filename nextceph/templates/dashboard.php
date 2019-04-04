@@ -13,7 +13,6 @@ style('nextceph', 'style');
 
 		<div id="app-content-wrapper">
 			<?php
-			include 'settings/settings.php';
 
 			function append($service, $input){
 				if ($service == '') {
@@ -52,7 +51,8 @@ style('nextceph', 'style');
 			echo("<pre><H1>Dashboard</H1>\n");
 			//health report
 			$obj = post($url,$login,$pass,array('prefix'=>'health'));
-			echo('<div id="healthpad"><mons>Health Report</mons><br><br>'.$obj->finished[0]->outb."</div>\n");
+			$obj = str_replace('; ', '<br>', $obj->finished[0]->outb);
+			echo('<div id="healthpad"><mons>Health Report</mons><br><br><div style="height:180px;width:650px;font:16px/26px ;overflow:auto;">'.$obj.'</div></div><br>');
 
 			//usage
 			$obj = post($url,$login,$pass,array('prefix'=>'df','detail'=>'detail'));

@@ -13,7 +13,6 @@ style('nextceph', 'style');
 		<div id="app-content-wrapper">
 			<div id="container">
 				<?php
-				include 'settings/settings.php';
 
 				function append($service, $input){
 					if ($service['total'] == 0) {
@@ -34,17 +33,14 @@ style('nextceph', 'style');
 					return $output;
 				}
 
-				$url = 'https://'.$nc_config['mgr_host'].':'.$nc_config['mgr_port'].'/server';
-				$login = $nc_config['user'];
-				$pass = $nc_config['psswd'];
-
+				$url = 'https://'.$_[0].':'.$_[1].'/server';
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL,$url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-				curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+				curl_setopt($ch, CURLOPT_USERPWD, "$_[2]:$_[3]");
 				$result = curl_exec($ch);
 				curl_close($ch);
 				$data = json_decode($result);
