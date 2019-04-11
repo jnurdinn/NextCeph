@@ -127,11 +127,17 @@ class PageController extends Controller {
 			$set = $this->sysVal->setAppValue('username', $_POST["username"]);
 			$set = $this->sysVal->setAppValue('password', $_POST["password"]);
 			return new RedirectResponse('/index.php/apps/nextceph/');
+
 		} else if ($_POST["type"] == "genPool"){
-			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/pool';
+			$jsondata = array('prefix'=>'osd pool create','pool'=>$_POST["name"],'pg_num'=>(int)$_POST["pg_num"],'size'=>(int)$_POST["size"], 'pool_type'=>$_POST["pg_type"], 'rule'=>$_POST["rule"]);
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/request?wait=1';
 			$login = $this->sysVal->getAppValue('username');
 			$pass = $this->sysVal->getAppValue('password');
-			$jsondata = array('name'=>$_POST["poolName"], 'pg_num'=>$_POST["poolPG"]);
+			if ($_POST["pg_type"] == 'erasure'){
+				$jsondata = array('prefix'=>'osd pool create','pool'=>$_POST["name"],'pg_num'=>(int)$_POST["pg_num"],'size'=>(int)$_POST["size"], 'pool_type'=>$_POST["pg_type"], 'rule'=>$_POST["rule"], 'erasure_code_profile'=>$_POST["erasure_code_profile"]);
+			} else if ($_POST["pg_type"] == 'replicated') {
+				$jsondata = array('prefix'=>'osd pool create','pool'=>$_POST["name"],'pg_num'=>(int)$_POST["pg_num"],'size'=>(int)$_POST["size"], 'pool_type'=>$_POST["pg_type"], 'rule'=>$_POST["rule"]);
+			}
 			$jsondata = json_encode($jsondata);
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,$url);
@@ -140,15 +146,114 @@ class PageController extends Controller {
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/pool');
+
+		} else if ($_POST["type"] == "genCRUSH"){
+			$jsondata = array('prefix'=>'osd crush rule create-simple','name'=>$_POST["name"],'root'=>$_POST["root"], 'type'=>$_POST["crush_type"], 'mode'=>$_POST["mode"]);
+			$jsondata = json_encode($jsondata);
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/request?wait=1';
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/crush');
+
+		} else if ($_POST["type"] == "genECP"){
+			$json = array('prefix'=>'osd erasure-code-profile set','name'=>$_POST["name"],'profile'=>$_POST["profile"]);
+			$jsondata = json_encode($json);
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/request?wait=1';
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/crush');
+			//return new JSONResponse($json);
+
+		} else if ($_POST["type"] == "delECP"){
+			$json = array('prefix'=>'osd erasure-code-profile rm','name'=>$_POST["name"]);
+			$jsondata = json_encode($json);
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/request?wait=1';
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/crush');
+			//return new JSONResponse($json);
+
+		} else if ($_POST["type"] == "delCRUSH"){
+			$json = array('prefix'=>'osd crush rule rm','name'=>$_POST["name"]);
+			$jsondata = json_encode($json);
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/request?wait=1';
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/crush');
+
+		} else if ($_POST["type"] == "delPool"){
+
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/pool/'.$_POST["id"];
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 			$result = curl_exec($ch);
 			$obj = json_decode($result);
 			curl_close($ch);
 			return new RedirectResponse('/index.php/apps/nextceph/pool');
-		} else if ($_POST["type"] == "delPool"){
+
+		} else if ($_POST["type"] == "editPool"){
+
 			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/pool/'.$_POST["id"];
 			$login = $this->sysVal->getAppValue('username');
 			$pass = $this->sysVal->getAppValue('password');
+			$jsondata = array('pg_num'=>(int)$_POST["pg_num"],'pgp_num'=>(int)$_POST["pgp_num"],'size'=>(int)$_POST["size"]);
 			$jsondata = json_encode($jsondata);
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,$url);
@@ -156,15 +261,40 @@ class PageController extends Controller {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
 			$result = curl_exec($ch);
 			$obj = json_decode($result);
 			curl_close($ch);
 			return new RedirectResponse('/index.php/apps/nextceph/pool');
+
+		} else if ($_POST["type"] == "editOSD"){
+
+			$url = 'https://'.$this->sysVal->getAppValue('mgrip').':'.$this->sysVal->getAppValue('mgrport').'/osd/'.$_POST["id"];
+			$login = $this->sysVal->getAppValue('username');
+			$pass = $this->sysVal->getAppValue('password');
+			$jsondata = array('id'=>$_POST["id"],'up'=>$_POST["up"]);
+			$jsondata = json_encode($jsondata);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata);
+			$result = curl_exec($ch);
+			$obj = json_decode($result);
+			curl_close($ch);
+			return new RedirectResponse('/index.php/apps/nextceph/osd');
+		} else {
+			return new JSONResponse(array('hello'=>1));
 		}
 	}
 
-	private function post($url,$login,$pass,$jsondata){
+	public function post($url,$login,$pass,$jsondata){
 		$jsondata = json_encode($jsondata);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$url);

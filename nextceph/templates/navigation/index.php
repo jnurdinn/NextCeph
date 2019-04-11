@@ -9,7 +9,7 @@
                 <li>
                 <a href="#">Cluster</a>
                 <ul>
-                        <li><a href="crush">CRUSH</a></li>
+                        <li><a href="crush">CRUSH & Erasure Profile</a></li>
                         <li><a href="host">Hosts</a></li>
                         <li><a href="pool">Pools</a></li>
                         <li><a href="osd">OSDs</a></li>

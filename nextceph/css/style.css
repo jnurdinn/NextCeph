@@ -116,6 +116,10 @@ input {
   width: 100%;
 }
 
+select {
+  width: 100%;
+}
+
 .box {
   width: 40%;
   margin: 0 auto;
@@ -183,4 +187,16 @@ input {
   .popup{
     width: 70%;
   }
+}
+
+.pad-crush {
+  position: absolute;
+  left : 100px;
+  margin-bottom: 25px;
+}
+
+.pad-erasure {
+  position: absolute;
+  top : 20px;
+  left : 800px;
 }

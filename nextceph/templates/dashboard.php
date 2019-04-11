@@ -48,7 +48,7 @@ style('nextceph', 'style');
 			$pass = $_[3];
 
 			echo('<div id="container"><main>');
-			echo("<pre><H1>Dashboard</H1>\n");
+			echo('<pre><H1>Dashboard</H1><br>');
 			//health report
 			$obj = post($url,$login,$pass,array('prefix'=>'health'));
 			$obj = str_replace('; ', '<br>', $obj->finished[0]->outb);
