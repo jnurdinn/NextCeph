@@ -6,18 +6,20 @@
 	</div>
 	<div id="app-settings-content">
 		<!-- Your settings in here -->
-		<li> Ceph MGR API Settings :
-			<form action="apply" method="post">
-				<input name="type" type="hidden" value="applySetting">
-				<?php
-				echo ('IP Address 	: <input type="text" name="mgrip" value='.$_[0].'><br>');
-				echo ('Port 				: <input type="text" name="mgrport" value='.$_[1].'><br>');
-				echo ('Username	: <input type="text" name="username" value='.$_[2].'><br>');
-				echo ('Password	:<input type="password" name="password" value='.$_[3].'><br>');
-				?>
-				<input type="submit" name="submit" value="Apply" >
-			</form>
+		<form action="apply" method="post">
+		<input name="type" type="hidden" value="applySetting">
+		<li> Ceph MGR API Settings :<br>
+				IP Address 	: <input type="text" name="mgrip" value='<?php p($_[0])?>'>
+				Port 				: <input type="text" name="mgrport" value='<?php p($_[1])?>'>
+				Username	: <input type="text" name="username" value='<?php p($_[2])?>'>
+				Password	:<input type="password" name="password" value='<?php p($_[3])?>'>
 		</li>
+		<li> Ceph NextRados API Settings :<br>
+				IP Address 	: <input type="text" name="nrip" value='<?php p($_[4])?>'>
+				Port 				: <input type="text" name="nrport" value='<?php p($_[5])?>'>
+				<input type="submit" name="submit" value="Apply" >
+		</li>
+		</form>
 		<li><a href="#">App Info</a></li>
 	</div>
 </div>

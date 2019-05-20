@@ -48,7 +48,7 @@ style('nextceph', 'style');
 
 			//crush rule
 			echo '<div class="pad-crush"><pre><H1>CRUSH Rules</H1><br>';
-			echo '<a class="button" href="#addCRUSH">Add CRUSH Rule</a><br><br>';
+			echo '<a class="button" href="#addCRUSHS">Add Simple Rule</a><a class="button" href="#addCRUSHR">Add Replicated Rule</a><a class="button" href="#addCRUSHE">Add Erasure Rule</a><br><br>';
 			echo '<table><tr><th><b>Rule Name</b></th>';
 			echo '<th><b>Key</b></th>';
 			echo '<th><b>Value</b></th>';
@@ -98,43 +98,43 @@ style('nextceph', 'style');
 			$ec_url = 'https://'.$_[0].':'.$_[1].'/request?wait=1';
 			$obj = post($ec_url,$_[2],$_[3],array('prefix'=>'osd erasure-code-profile ls'));
 			$obj = explode("\n", $obj->finished[0]->outb);
+			$rmv = array_pop($obj);
+			$rmv = array_shift($obj);
 
-			echo '<div class="pad-erasure"><pre><H1>Erasure Code Profile</H1><br>';
+			echo '<div class="pad-erasure"><pre><H1>Erasure Code Profiles</H1><br>';
 			echo '<a class="button" href="#addECP"> Add EC Profile</a><br><br>';
 			echo '<table><tr><th><b>Profile Name</b></th>';
 			echo '<th><b>Key</b></th>';
 			echo '<th><b>Value</b></th>';
 			echo '<th><b>Del</b></th></tr>';
 			foreach ($obj as $data){
-				if ($data != end($obj)){
-					$obj2 = post($ec_url,$_[2],$_[3],array('prefix'=>'osd erasure-code-profile get','name'=>$data));
-					$obj2 = explode("\n", $obj2->finished[0]->outb);
-					$count = 0;
-					foreach ($obj2 as $sep){
-						if ($sep != end($obj2)){
-							$sep = explode("=", $sep);
-							$sep = Array($sep[0]=>$sep[1]);
-							foreach ($sep as $s_key=>$s_val){
-								echo '<tr>';
-								if ($count==0){
-									echo '<td><b>'.$data.'</b></td>';
-								} else {
-									echo '<td></td>';
-								}
-								echo '<td>'.$s_key.'</td>';
-								echo '<td>'.$s_val.'</td>';
-								if ($count==0){
-									if ($data != 'default'){
-											echo '<td><form action="#delECP" method="get"><input name="name" type="hidden" value="'.$data.'"></input><input type="submit" class="icon-delete" value=""></input></form></td>';
-									} else {
-											echo '<td></td>';
-									}
-									$count = 1;
-								} else {
-									echo '<td></td>';
-								}
-								echo '</tr>';
+				$obj2 = post($ec_url,$_[2],$_[3],array('prefix'=>'osd erasure-code-profile get','name'=>$data));
+				$obj2 = explode("\n", $obj2->finished[0]->outb);
+				$count = 0;
+				foreach ($obj2 as $sep){
+					if ($sep != end($obj2)){
+						$sep = explode("=", $sep);
+						$sep = Array($sep[0]=>$sep[1]);
+						foreach ($sep as $s_key=>$s_val){
+							echo '<tr>';
+							if ($count==0){
+								echo '<td><b>'.$data.'</b></td>';
+							} else {
+								echo '<td></td>';
 							}
+							echo '<td>'.$s_key.'</td>';
+							echo '<td>'.$s_val.'</td>';
+							if ($count==0){
+								if ($data != 'default'){
+										echo '<td><form action="#delECP" method="get"><input name="name" type="hidden" value="'.$data.'"></input><input type="submit" class="icon-delete" value=""></input></form></td>';
+								} else {
+										echo '<td></td>';
+								}
+								$count = 1;
+							} else {
+								echo '<td></td>';
+							}
+							echo '</tr>';
 						}
 					}
 				}
@@ -143,18 +143,58 @@ style('nextceph', 'style');
 			echo '</div>';
 			echo '</main></div>';
 			?>
-			<div id="addCRUSH" class="overlay">
+			<div id="addCRUSHS" class="overlay">
 				<div class="popup">
-					<h2>Generate New Pool</h2>
+					<h2>Generate New Simple CRUSH Rule</h2>
 					<a class="close" href="#">&times;</a>
 					<div class="content">
 			      <form action="apply" method="POST">
 							<input name="type" type="hidden" value="genCRUSH">
+							<input name="typeCRUSH" type="hidden" value="simple">
 							Rule Name <input type="text" name="name"> <br>
 							Root <input type="text" name="root" value="default"> <br>
 							Type <input type="text" name="crush_type" value="osd"><br>
 							Mode <br>
 							<select name="mode" size="10"><option value="firstn">firstn</option><option value="indep">indep</option></select> <br>
+			        <center><input type="submit" value="Generate"></input><a class="button" href="#">Cancel</a></center>
+			      </form>
+					</div>
+				</div>
+			</div>
+			<div id="addCRUSHR" class="overlay">
+				<div class="popup">
+					<h2>Generate New Replicated CRUSH Rule</h2>
+					<a class="close" href="#">&times;</a>
+					<div class="content">
+			      <form action="apply" method="POST">
+							<input name="type" type="hidden" value="genCRUSH">
+							<input name="typeCRUSH" type="hidden" value="replicated">
+							Rule Name <input type="text" name="name"> <br>
+							Root <input type="text" name="root" value="default"> <br>
+							Type <input type="text" name="crush_type" value="osd"><br>
+							Class <input type="text" name="class" value="hdd"><br>
+			        <center><input type="submit" value="Generate"></input><a class="button" href="#">Cancel</a></center>
+			      </form>
+					</div>
+				</div>
+			</div>
+			<div id="addCRUSHE" class="overlay">
+				<div class="popup">
+					<h2>Generate New Erasure CRUSH Rule</h2>
+					<a class="close" href="#">&times;</a>
+					<div class="content">
+			      <form action="apply" method="POST">
+							<input name="type" type="hidden" value="genCRUSH">
+							<input name="typeCRUSH" type="hidden" value="erasure">
+							Rule Name <input type="text" name="name"> <br>
+							EC Profile
+							<select name="profile" size="10">
+								<?php
+								foreach ($obj as $obj) {
+									echo ('<option value="'.$obj.'">'.$obj.'</option>');
+								}
+								?>
+							</select><br>
 			        <center><input type="submit" value="Generate"></input><a class="button" href="#">Cancel</a></center>
 			      </form>
 					</div>
@@ -168,7 +208,10 @@ style('nextceph', 'style');
 			      <form action="apply" method="POST">
 							<input name="type" type="hidden" value="genECP">
 							Profile Name <input type="text" name="name"> <br>
-							Profile <input type="text" name="profile" value="k=5 m=2"> <br>
+							k value <input type="text" name="k" value="2"> <br>
+							m value <input type="text" name="m" value="1"> <br>
+							CRUSH Failure Domain <input type="text" name="crush-failure-domain" value="host"> <br>
+							CRUSH Device Class <input type="text" name="crush-device-class" value="hdd"> <br>
 			        <center><input type="submit" value="Generate"></input><a class="button" href="#">Cancel</a></center>
 			      </form>
 					</div>

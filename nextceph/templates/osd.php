@@ -34,6 +34,7 @@ style('nextceph', 'style');
 
 			echo('<div id="container"><main>');
 			echo '<pre><H1>Object Storage Daemons</H1><br>';
+			echo '<a class="button" href="#addOSD">Add New OSD</a><br><br>';
 			echo '<table><tr>';
 			echo '<td><b>OSD ID</b></td>';
 			echo '<td><b>Hostname</b></td>';
@@ -43,7 +44,7 @@ style('nextceph', 'style');
 			echo '<td><b>UUID</b></td>';
 			echo '<td><b>OSD Reweight</b></td>';
 			echo '<td><b>Details</b></td>';
-			echo '<td><b>Edit</b></td></tr>';
+			echo '<td><b>Del</b></td></tr>';
       foreach ($data as $data) {
 	      echo '<tr>';
 	      echo '<td>'.$data->osd.'</td>';
@@ -56,25 +57,35 @@ style('nextceph', 'style');
 				echo '<td>'.$data->uuid.'</td><td>';
 				echo (boolval($data->weight) ? 'true' : 'false');
 				echo '</td><td><form action="#viewOSD" method="get"><input name="id" type="hidden" value="'.$data->osd.'"></input><input type="submit" class="icon-menu" value=""></input></form></td>';
-				echo '</td><td><form action="#editOSD" method="get"><input name="id" type="hidden" value="'.$data->osd.'"></input>';
-				echo '<input name="up" type="hidden" value="'.$data->state[1].'"></input>';
-				echo '<input name="weight" type="hidden" value="'.$data->weight.'"></input>';
-				echo '<input type="submit" class="icon-edit" value=""></input></form></td></tr>';
+				echo '</td><td><form action="#delOSD" method="get"><input name="id" type="hidden" value="'.$data->osd.'"></input><input type="submit" class="icon-delete" value=""></input></form></td></tr>';
 			}
 			echo '</table></pre></main></div>';
 			?>
 		</div>
-		<div id="editOSD" class="overlay">
+		<div id="addOSD" class="overlay">
 			<div class="popup">
-				<h2>Edit OSD <b><?php echo($_GET["id"])?></b></h2>
+				<h2>Add New OSD</h2>
 				<a class="close" href="#">&times;</a>
 				<div class="content">
 					<form action="apply" method="POST">
-						<input name="type" type="hidden" value="editOSD">
-						<input name="id" type="hidden" value="<?php echo($_GET["id"]) ?>">
-						Reweight <input name="reweight" value="<?php echo($_GET["weight"]) ?>">
-						Up Status <input name="up" value="<?php echo($_GET["up"]) ?>">
+						<input name="type" type="hidden" value="genOSD">
+						UUID <input name="uuid" value="<?php echo($_GET["weight"]) ?>">
+						ID <input name="id" value="<?php echo($_GET["up"]) ?>">
 						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="delOSD" class="overlay">
+			<div class="popup">
+				<h2>Delete OSD</h2>
+				<a class="close" href="#">&times;</a>
+				<div class="content">
+					<form action="apply" method="POST">
+						<input name="type" type="hidden" value="delOSD">
+						<input name="id" type="hidden" value="<?php echo($_GET["id"]) ?>">
+						Are you sure to delete OSD <b><?php echo($_GET["id"])?></b>?<br>
+						<center><input type="submit" value="OK"></input><a class="button" href="#">Cancel</a></center>
 					</form>
 				</div>
 			</div>

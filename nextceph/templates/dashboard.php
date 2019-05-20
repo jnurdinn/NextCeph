@@ -52,7 +52,7 @@ style('nextceph', 'style');
 			//health report
 			$obj = post($url,$login,$pass,array('prefix'=>'health'));
 			$obj = str_replace('; ', '<br>', $obj->finished[0]->outb);
-			echo('<div id="healthpad"><mons>Health Report</mons><br><br><div style="height:180px;width:650px;font:16px/26px ;overflow:auto;">'.$obj.'</div></div><br>');
+			echo('<div id="healthpad"><mons>Health Report</mons><br><br><div style="height:105px;width:650px;font:16px/26px ;overflow:auto;">'.$obj.'</div></div><br>');
 
 			//usage
 			$obj = post($url,$login,$pass,array('prefix'=>'df','detail'=>'detail'));
@@ -115,63 +115,34 @@ style('nextceph', 'style');
 			echo '</table></div></div>';
 
 			//Daemons
-			$obj = post($url,$login,$pass,array('prefix'=>'node ls'));
-			$json = json_decode($obj->finished[0]->outb, true);
-			//mon
-			$mon = array('data'=>$json['mon'],'total'=>0);
-			foreach ($mon['data'] as $val){
-				$mon['list'] = append($mon['list'], $val[0]);
-				$mon['total']++;
-			}
-			if($mon['total'] == 0){
-				$mon['desc'] = 'No monitor server found';
-			} else {
-				$mon['desc'] = 'Active : '.$mon['total'].' ('.$mon['list'].')';
-			}
+			$mon = array('data'=>'No MON Found','pos'=>0);
+			$mgr = array('data'=>'No MGR Found','pos'=>0);
+			$mds = array('data'=>'No MDS Found','pos'=>0);
+			$osd = array('data'=>'No OSD Found','pos'=>0);
 
-			//mgr
-			$mgr = array('data'=>$json['mgr'],'total'=>0);
-			foreach ($mgr['data'] as $val){
-				$mgr['list'] = append($mgr['list'], $val[0]);
-				$mgr['total']++;
-			}
-			if($mgr['total'] == 0){
-				$mgr['desc'] = 'No manager server found';
-			} else {
-				$mgr['desc'] = 'Active : '.$mgr['total'].' ('.$mgr['list'].')';
-			}
-
-			//mds
-			$mds = array('data'=>$json['mds'],'total'=>0);
-			foreach ($mds['data'] as $val){
-				$mds['list'] = append($mds['list'], $val[0]);
-				$mds['total']++;
-			}
-			if($mds['total'] == 0){
-				$mds['desc'] = 'No manager server found';
-			} else {
-				$mds['desc'] = 'Active : '.$mds['total'].' ('.$mds['list'].')';
-			}
-
-
-			//osd
-			$osd = array('data'=>$json['osd'],'total'=>0);
-			foreach ($osd['data'] as $key=>$value){
-				foreach ($value as $value){
-					$osd['total']++;
+			$obj = post($url,$login,$pass,array('prefix'=>'status'));
+			$obj = explode("\n",$obj->finished[0]->outb);
+			foreach ($obj as $obj) {
+				if (substr($obj, 4, 3) == 'mon'){
+					$mon['data'] = substr($obj, 8, 50);
 				}
-			}
-			if($osd['total'] == 0){
-				$osd['desc'] = 'No OSD server found';
-			} else {
-				$osd['desc'] = 'Active : '.$osd['total'];
+				if (substr($obj, 4, 3) == 'mgr'){
+					$mgr['data'] = substr($obj, 8, 50);
+				}
+				if (substr($obj, 4, 3) == 'mds'){
+					$mds['data'] = substr($obj, 8, 50);
+				}
+				if (substr($obj, 4, 3) == 'osd'){
+					$osd['data'] = substr($obj, 8, 50);
+				}
 			}
 
 			//print daemons?>
-			<div id="pad1"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mon.png'));?>"/><a href="mon"> MON</a></mons><br><?php echo $mon['desc']
-			?></div><div id="pad2"><mons><img src="<?php print_unescaped(image_path('nextceph', 'osd.png'));?>"/><a href="osd"> OSD</a></mons><br><?php echo $osd['desc']
-			?></div><div id="pad3"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mds.png'));?>"/> MDS</mons><br><?php echo $mds['desc']
-			?></div><div id="pad4"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mgr.png'));?>"/> MGR</mons><br><?php echo $mgr['desc']?></div><?php
+			<div id="pad1"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mon.png'));?>"/><a href="mon"> MON</a></mons><br><?php echo $mon['data']
+			?></div><div id="pad2"><mons><img src="<?php print_unescaped(image_path('nextceph', 'osd.png'));?>"/><a href="osd"> OSD</a></mons><br><?php echo $osd['data']
+			?></div><div id="pad3"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mds.png'));?>"/> MDS</mons><br><?php echo $mds['data']
+			?></div><div id="pad4"><mons><img src="<?php print_unescaped(image_path('nextceph', 'mgr.png'));?>"/> MGR</mons><br><?php echo $mgr['data']?></div><?php
+
 			//log
 			$obj = post($url,$login,$pass,array('prefix'=>'log last','num'=>100));
 			echo('<div="logpad"><h2>Cluster Log : </h2>');

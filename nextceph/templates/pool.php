@@ -54,7 +54,7 @@ style('nextceph', 'style');
 
 			echo('<div id="container"><main>');
 			echo '<pre><H1>Pools</H1><br>';
-			echo '<a class="button" href="#addPool">(+) Add New Pool</a><br><br>';
+			echo '<a class="button" href="#addPool">Add New Pool</a><br><br>';
 			echo '<table><tr>';
 			echo '<td><b>Pool ID</b></td>';
 			echo '<td><b>Name</b></td>';

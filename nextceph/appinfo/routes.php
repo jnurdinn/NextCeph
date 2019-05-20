@@ -11,6 +11,9 @@ return [
      ['name' => 'page#log', 'url' => '/log', 'verb' => 'GET'],
      ['name' => 'page#perform', 'url' => '/perform', 'verb' => 'GET'],
      ['name' => 'page#crush', 'url' => '/crush', 'verb' => 'GET'],
+     ['name' => 'page#cephfs', 'url' => '/cephfs', 'verb' => 'GET'],
+     ['name' => 'page#rbd', 'url' => '/rbd', 'verb' => 'GET'],
+     ['name' => 'page#rgw', 'url' => '/rgw', 'verb' => 'GET'],
 	   ['name' => 'page#apply', 'url' => '/apply', 'verb' => 'POST'],
      ['name' => 'page#returnJSON', 'url' => '/json', 'verb' => 'GET'],
     ]
